@@ -1,5 +1,6 @@
 // These are global type declarations
 
+import { SpawnInCreep } from "creep/spawning/spawningRequest"
 import { FindEmptySites } from "room/constructionManager"
 
 declare global {
@@ -28,7 +29,7 @@ declare global {
 }
 
 export const loop = function () {
-    
+
     for (var name in Memory.creeps) {
         if (!Game.creeps[name]) {
             delete Memory.creeps[name]
@@ -37,13 +38,26 @@ export const loop = function () {
     }
 
     //how often FindEmptySites runs
+
     const waitTime = 50
 
-    // If the remainder of dividing the current game time by some value is 0, then its been some 10 ticks
+    // If the remainder of dividing the current game time by some value is 0, then its been some amount of ticks
+
     if (Game.time % waitTime == 0) {
-        console.log('this runs')
         FindEmptySites
     }
+
+    //how often it checks to spawn in another creep'
+
+    const waitingTime = 5
+
+    // If the remainder of dividing the current game time by some value is 0, then its been some amount of ticks
+
+    if (Game.time % waitTime == 0) {
+        SpawnInCreep
+    }
+
+
 
     // This is the main loop
 }
