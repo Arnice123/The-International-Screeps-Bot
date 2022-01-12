@@ -53,7 +53,7 @@ export const loop = function () {
 
     // If the remainder of dividing the current game time by some value is 0, then its been some amount of ticks
 
-    if (Game.time % waitTime == 0) {
+    if (Game.time % waitingTime == 0) {
         SpawnInCreep
     }
 
