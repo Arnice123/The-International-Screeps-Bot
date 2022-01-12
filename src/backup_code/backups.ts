@@ -92,3 +92,30 @@ function FindEmptySites()
 module.exports = FindEmptySites()
 
 */
+
+/*function SpawnInHarvester() {
+
+        if (spawnEnergyAvailable <= 300) {
+            var newName = 'Harvester(T1)' + Game.time
+            console.log('Spawning new harvester(T1): ' + newName)
+            Game.spawns['Arnice123'].spawnCreep([WORK, WORK, MOVE], newName,
+                { memory: { role: 'harvester' } })
+        }
+
+        if (spawnEnergyAvailable > 300 && spawnEnergyAvailable <= 400) {
+            var newName = 'Harvester(T2)' + Game.time
+            console.log('Spawning new harvester(T2): ' + newName)
+            Game.spawns['Arnice123'].spawnCreep([WORK, WORK, WORK, WORK, MOVE], newName,
+                { memory: { role: 'harvester' } })
+
+        }
+
+        if (spawnEnergyAvailable > 400 && spawnEnergyAvailable <= 600) {
+            var newName = 'Harvester(T3)' + Game.time
+            console.log('Spawning new harvester(T3): ' + newName)
+            Game.spawns['Arnice123'].spawnCreep([WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE], newName,
+                { memory: { role: 'harvester' } })
+
+        }
+
+    }*/
