@@ -1,13 +1,15 @@
 /* This code is to find out how many parts a creep should have for their select role */
 
+import internal from "stream"
+
 export function SpawnInCreep(room: Room) {
 
     // Getting the amount of creeps in the room
 
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester')
     var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader')
-    var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
-    var haulers = _.filter(Game.creeps, (creep) => creep.memory.role == 'hauler');
+    var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder')
+    var haulers = _.filter(Game.creeps, (creep) => creep.memory.role == 'hauler')
 
     // getting the energy structures
 
@@ -20,132 +22,180 @@ export function SpawnInCreep(room: Room) {
 
     const spawnEnergyAvailable = room.energyAvailable
 
-    // getting the capacity
+    // creating a creep body that has default parts, extra parts and a maximun amount of parts
 
-    const spawnEnergyCapacity = room.energyCapacityAvailable
+    interface BodyOpts {
+        defaultParts: BodyPartConstant[]
+        extraParts: BodyPartConstant[]
+        maxParts: number
+    }
 
     // if the amount of creeps for each role is less than 2 spawn in a new one
 
     if (harvesters.length < 2) {
-        SpawnInHarvester
+        SpawnInHarvester(spawnEnergyAvailable)
     }
 
     if (upgraders.length < 2) {
-        SpawnInUpgrader
+        SpawnInUpgrader(spawnEnergyAvailable)
     }
 
     if (builders.length < 2) {
-        SpawnInBuilder
+        SpawnInBuilder(spawnEnergyAvailable)
     }
 
     if (haulers.length < 2) {
-        SpawnInHauler
+        SpawnInHauler(spawnEnergyAvailable)
     }
 
-    // creating the maximum that the creep can cost
+    // function to spawn in harvesters
 
-    const maxCost = spawnEnergyCapacity
+    function SpawnInHarvester(energy: number) {
 
-    function SpawnInHarvester() {
+        // if there isn't enough energy to spawn it in return
 
-        if (spawnEnergyAvailable <= 300) {
-            var newName = 'Harvester(T1)' + Game.time;
-            console.log('Spawning new harvester(T1): ' + newName);
-            Game.spawns['Arnice123'].spawnCreep([WORK, WORK, MOVE], newName,
-                { memory: { role: 'harvester' } });
+        if (energy < 300) {
+            return
         }
 
-        if (spawnEnergyAvailable > 300 && spawnEnergyAvailable <= 400) {
-            var newName = 'Harvester(T2)' + Game.time;
-            console.log('Spawning new harvester(T2): ' + newName);
-            Game.spawns['Arnice123'].spawnCreep([WORK, WORK, WORK, WORK, MOVE], newName,
-                { memory: { role: 'harvester' } });
+        // get the amount of parts that it can create
 
+        var numberOfParts = Math.floor((energy - 300) / 50)
+
+        // creating the body
+
+        let body: BodyPartConstant[] = [MOVE, WORK, WORK]
+
+        // adding a work part for each part there is
+
+        for (let i = 0; i < numberOfParts; i++) {
+            body.push(WORK);
         }
 
-        if (spawnEnergyAvailable > 400 && spawnEnergyAvailable <= 600) {
-            var newName = 'Harvester(T3)' + Game.time;
-            console.log('Spawning new harvester(T3): ' + newName);
-            Game.spawns['Arnice123'].spawnCreep([WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE], newName,
-                { memory: { role: 'harvester' } });
-
-        }
-
+        // spawning in the creep
+        var newName = 'Harvester(T' + numberOfParts + ')' + Game.time
+        Game.spawns['Arnice123'].spawnCreep(body, newName, { memory: { role: 'harvester' } })
     }
 
-    function SpawnInUpgrader() {
-        if (spawnEnergyAvailable <= 300) {
-            var newName = 'Upgrader(T1)' + Game.time;
-            console.log('Spawning new upgrader(T1): ' + newName);
-            Game.spawns['Arnice123'].spawnCreep([WORK, CARRY, MOVE], newName,
-                { memory: { role: 'upgrader' } });
+    function SpawnInUpgrader(energy: number) {
+
+        if (energy < 300) {
+            return
         }
 
-        if (spawnEnergyAvailable > 300 && spawnEnergyAvailable <= 400) {
-            var newName = 'Upgrader(T2)' + Game.time;
-            console.log('Spawning new upgrader(T2): ' + newName);
-            Game.spawns['Arnice123'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE], newName,
-                { memory: { role: 'upgrader' } });
+        // creating the body
 
+        let body: BodyOpts = {
+            defaultParts: [MOVE, CARRY, WORK],
+            extraParts: [],
+            maxParts: 30
         }
 
-        if (spawnEnergyAvailable > 400 && spawnEnergyAvailable <= 600) {
-            var newName = 'Upgrader(T3)' + Game.time;
-            console.log('Spawning new upgrader(T3): ' + newName);
-            Game.spawns['Arnice123'].spawnCreep([WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName,
-                { memory: { role: 'upgrader' } });
+        var numberOfParts = Math.floor((energy - 300) / 50);
 
+        // dividing the amount of parts amoung them
+
+        // carry gets a third
+        var numberOfCarryParts = Math.floor(numberOfParts * 0.30)
+
+        // move gets half of the work parts
+        var numberOfMoveParts = Math.floor(numberOfParts * 0.23)
+
+        // work gets double the amount of move parts for max speed
+        var numberOfWorkParts = Math.floor(numberOfParts * 0.47)
+
+
+        for (let i = 0; i < numberOfWorkParts; i++) {
+            body.extraParts.push(WORK)
         }
+
+        for (let i = 0; i < numberOfMoveParts; i++) {
+            body.extraParts.push(MOVE)
+        }
+
+        for (let i = 0; i < numberOfCarryParts; i++) {
+            body.extraParts.push(CARRY)
+        }
+
+        // creating a new body
+        var newBody: BodyPartConstant[] = []
+
+        for (var i in body.defaultParts) {
+            newBody.push(body.defaultParts[i])
+        }
+
+        for (var i in body.extraParts) {
+            newBody.push(body.extraParts[i])
+        }
+
+        //spawing in Upgrader
+        var newName = 'Upgrader(T' + numberOfParts + ')' + Game.time
+        Game.spawns['Arnice123'].spawnCreep(newBody, newName, { memory: { role: 'upgrader' } })
+        return
     }
 
-    function SpawnInBuilder() {
-        if (spawnEnergyAvailable <= 300) {
-            var newName = 'Builder(T1)' + Game.time;
-            console.log('Spawning new builder(T1): ' + newName);
-            Game.spawns['Arnice123'].spawnCreep([WORK, CARRY, MOVE], newName,
-                { memory: { role: 'builder' } });
+    function SpawnInBuilder(energy: number) {
+        if (energy < 300) {
+            return
         }
 
-        if (spawnEnergyAvailable > 300 && spawnEnergyAvailable <= 400) {
-            var newName = 'Builder(T2)' + Game.time;
-            console.log('Spawning new builder(T2): ' + newName);
-            Game.spawns['Arnice123'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE], newName,
-                { memory: { role: 'builder' } });
-
+        let body: BodyOpts = {
+            defaultParts: [MOVE, CARRY, WORK],
+            extraParts: [],
+            maxParts: 30
         }
 
-        if (spawnEnergyAvailable > 400 && spawnEnergyAvailable <= 600) {
-            var newName = 'Builder(T3)' + Game.time;
-            console.log('Spawning new builder(T3): ' + newName);
-            Game.spawns['Arnice123'].spawnCreep([WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE], newName,
-                { memory: { role: 'builder' } });
+        // create a balanced body as big as possible with the given energy
+        var numberOfParts = Math.floor((energy - 300) / 50);
 
+        var numberOfCarryParts = Math.floor(numberOfParts * 0.35)
+        var numberOfMoveParts = Math.floor(numberOfParts * 0.22)
+        var numberOfWorkParts = Math.floor(numberOfParts * 0.43)
+
+
+        for (let i = 0; i < numberOfWorkParts; i++) {
+            body.extraParts.push(WORK)
         }
+
+        for (let i = 0; i < numberOfMoveParts; i++) {
+            body.extraParts.push(MOVE)
+        }
+
+        for (let i = 0; i < numberOfCarryParts; i++) {
+            body.extraParts.push(CARRY)
+        }
+
+        //creating new bodt with defauly parts
+        var newBody: BodyPartConstant[] = [MOVE, CARRY, WORK]
+
+        //adding the extra parts
+        for (var i in body.extraParts) {
+            newBody.push(body.extraParts[i])
+        }
+
+        //spawing in a builder
+        var newName = 'Builder(T' + numberOfParts + ')' + Game.time
+        Game.spawns['Arnice123'].spawnCreep(newBody, newName, { memory: { role: 'builder' } })
+        return
     }
 
-    function SpawnInHauler() {
-        if (spawnEnergyAvailable <= 300) {
-            var newName = 'Hauler(T1)' + Game.time;
-            console.log('Spawning new hauler(T1): ' + newName);
-            Game.spawns['Arnice123'].spawnCreep([WORK, CARRY, MOVE], newName,
-                { memory: { role: 'hauler' } });
+    function SpawnInHauler(energy: number) {
+        if (energy < 300) {
+            return
         }
 
-        if (spawnEnergyAvailable > 300 && spawnEnergyAvailable <= 400) {
-            var newName = 'Hauler(T2)' + Game.time;
-            console.log('Spawning new hauler(T2): ' + newName);
-            Game.spawns['Arnice123'].spawnCreep([WORK, CARRY, CARRY, CARRY, MOVE], newName,
-                { memory: { role: 'hauler' } });
+        // create a balanced body as big as possible with the given energy
 
+        var numberOfParts = Math.floor((energy - 300) / 50)
+
+        let body: BodyPartConstant[] = [MOVE, CARRY, CARRY]
+
+        for (let i = 0; i < numberOfParts - 1; i++) {
+            body.push(CARRY);
         }
 
-        if (spawnEnergyAvailable > 400 && spawnEnergyAvailable <= 600) {
-            var newName = 'Hauler(T3)' + Game.time;
-            console.log('Spawning new hauler(T3): ' + newName);
-            Game.spawns['Arnice123'].spawnCreep([WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE], newName,
-                { memory: { role: 'hauler' } });
-
-        }
+        var newName = 'Hauler(T' + numberOfParts + ')' + Game.time
+        Game.spawns['Arnice123'].spawnCreep(body, newName, { memory: { role: 'hauler' } })
     }
 
 }
