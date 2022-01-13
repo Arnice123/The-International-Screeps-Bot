@@ -110,12 +110,25 @@ export function FindEmptySites() {
         }
 
         const AllPosiblePossitions: Position[] = findPositionsInsideRect(rect)
+        let shortestpath: PathStep[]
+        let chosenPosition: RoomPosition
 
-        for (var positions in AllPosiblePossitions)
-        {
+        for (var positions in AllPosiblePossitions) {
             const tempPos = new RoomPosition(AllPosiblePossitions[positions].x, AllPosiblePossitions[positions].y, room.name)
-            const tempPath = tempPos.findPathTo(Game.flags.SOURCE1.pos)
+            const tempPath = tempPos.findPathTo(Game.spawns['Arnice123'])
+            if (tempPath.length < shortestpath.length) {
+                shortestpath = tempPath
+                chosenPosition = tempPos
+            }
+
+            if (positions == '0') {
+                shortestpath = tempPath
+            }
         }
+
+        const placeContainerSiteResult = room.createConstructionSite(chosenPosition, STRUCTURE_ROAD)
+        console.log(placeContainerSiteResult)
+
 
     }
 
