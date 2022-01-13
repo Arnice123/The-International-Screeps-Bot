@@ -29,7 +29,6 @@ declare global {
 }
 
 export const loop = function () {
-
     for (var name in Memory.creeps) {
         if (!Game.creeps[name]) {
             delete Memory.creeps[name]
@@ -57,6 +56,15 @@ export const loop = function () {
         SpawnInCreep
     }
 
+     // displaying what type of creep is spawning
+     if(Game.spawns['Arnice123'].spawning) {
+        var spawningCreep = Game.creeps[Game.spawns['Arnice123'].spawning.name];
+        Game.spawns['Arnice123'].room.visual.text(
+            '🛠️' + spawningCreep.memory.role,
+            Game.spawns['Arnice123'].pos.x + 1,
+            Game.spawns['Arnice123'].pos.y,
+            {align: 'left', opacity: 0.8});
+    }
 
 
     // This is the main loop
