@@ -1,7 +1,8 @@
 // These are global type declarations
 
 import { SpawnInCreep } from "creep/spawning/spawningRequest"
-import { FindEmptySites } from "room/constructionManager"
+import { FindEmptySites } from "room/construction/RoadManager"
+import { PlaceContainersByController } from "room/construction/spawnContainerManager"
 
 declare global {
     /*
@@ -36,6 +37,13 @@ export const loop = function () {
         }
     }
 
+    //getting the room
+    const myHardcodedRoomName = "E32N8";
+    const room = Game.rooms[myHardcodedRoomName]
+
+    //getting the controller
+    const controller = room.controller
+
     //how often FindEmptySites runs
 
     const waitTime = 50
@@ -44,6 +52,7 @@ export const loop = function () {
 
     if (Game.time % waitTime == 0) {
         FindEmptySites
+        PlaceContainersByController(controller)
     }
 
     //how often it checks to spawn in another creep'
@@ -56,14 +65,14 @@ export const loop = function () {
         SpawnInCreep
     }
 
-     // displaying what type of creep is spawning
-     if(Game.spawns['Arnice123'].spawning) {
+    // displaying what type of creep is spawning
+    if (Game.spawns['Arnice123'].spawning) {
         var spawningCreep = Game.creeps[Game.spawns['Arnice123'].spawning.name];
         Game.spawns['Arnice123'].room.visual.text(
             '🛠️' + spawningCreep.memory.role,
             Game.spawns['Arnice123'].pos.x + 1,
             Game.spawns['Arnice123'].pos.y,
-            {align: 'left', opacity: 0.8});
+            { align: 'left', opacity: 0.8 });
     }
 
 
