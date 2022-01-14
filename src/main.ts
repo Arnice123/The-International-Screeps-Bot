@@ -3,6 +3,7 @@
 import { SpawnInCreep } from "creep/spawning/spawningRequest"
 import { FindEmptySites } from "room/construction/RoadManager"
 import { PlaceContainersByController } from "room/construction/spawnContainerManager"
+import { CheckIfContainerIsNeeded } from "room/ContainerManager"
 
 declare global {
     /*
@@ -41,6 +42,9 @@ export const loop = function () {
     const myHardcodedRoomName = "E32N8";
     const room = Game.rooms[myHardcodedRoomName]
 
+    //getting the spawn
+    const spawn: StructureSpawn = Game.spawns['Arnice123']
+
     //getting the controller
     const controller = room.controller
 
@@ -51,8 +55,11 @@ export const loop = function () {
     // If the remainder of dividing the current game time by some value is 0, then its been some amount of ticks
 
     if (Game.time % waitTime == 0) {
-        FindEmptySites
-        PlaceContainersByController(controller)
+        FindEmptySites(room, spawn)
+    }
+
+    if (CheckIfContainerIsNeeded(room, controller, spawn)) {
+        PlaceContainersByController(controller, room, spawn)
     }
 
     //how often it checks to spawn in another creep'

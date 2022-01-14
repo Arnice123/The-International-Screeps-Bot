@@ -21,11 +21,7 @@ interface Position {
     y: number
 }
 
-export function PlaceContainersByController(controller: StructureController) {
-    //creating an instance of the room
-
-    const myHardcodedRoomName = "E32N8";
-    const room = Game.rooms[myHardcodedRoomName]
+export function PlaceContainersByController(controller: StructureController, room: Room, spawn: StructureSpawn) {
 
     //getting the terrain
 
@@ -62,7 +58,7 @@ export function PlaceContainersByController(controller: StructureController) {
 
         // creating a path to the spawn to find out the shortest route
 
-        const tempPath = tempPos.findPathTo(Game.spawns['Arnice123'])
+        const tempPath = tempPos.findPathTo(spawn)
 
         // if the temporary path is shorter that the previus one make it the chosen pos
 

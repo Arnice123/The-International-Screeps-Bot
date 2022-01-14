@@ -7,19 +7,16 @@ import { Position } from "source-map";
 
 // function that will be called every 10 tics in order to find missing paths
 
-export function FindEmptySites() {
+export function FindEmptySites(room:Room, spawn:StructureSpawn) {
 
     //creating an instance of the room
 
-    const myHardcodedRoomName = "E32N8";
-    const room = Game.rooms[myHardcodedRoomName]
-
     // create a path from the spawn to the energy sources
 
-    const path1 = Game.spawns['Arnice123'].pos.findPathTo(Game.flags.SOURCE1.pos)
-    const path2 = Game.spawns['Arnice123'].pos.findPathTo(Game.flags.SOURCE2.pos)
+    const path1 = spawn.pos.findPathTo(Game.flags.SOURCE1.pos)
+    const path2 = spawn.pos.findPathTo(Game.flags.SOURCE2.pos)
 
-    const constructSitesLength = Game.spawns['Arnice123'].room.find(FIND_MY_STRUCTURES, {
+    const constructSitesLength = spawn.room.find(FIND_MY_STRUCTURES, {
         filter: { structureType: FIND_MY_CONSTRUCTION_SITES }
     })
 
@@ -31,7 +28,7 @@ export function FindEmptySites() {
 
     // Getting the room terrain
 
-    var terrain = Game.rooms[myHardcodedRoomName].getTerrain()
+    var terrain = room.getTerrain()
 
     // for each position in the path there should be a road
     let i = 0

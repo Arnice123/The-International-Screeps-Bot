@@ -2,7 +2,7 @@
 
 import internal from "stream"
 
-export function SpawnInCreep(room: Room) {
+export function SpawnInCreep(room: Room, spawn: StructureSpawn) {
 
     // Getting the amount of creeps in the room
 
@@ -13,7 +13,6 @@ export function SpawnInCreep(room: Room) {
 
     // getting the energy structures
 
-    const spawnStructuresSpawn: StructureSpawn = Game.spawns['Arnice123']
     const spawnStructuresExtention: StructureExtension[] = room.find(FIND_MY_STRUCTURES, {
         filter: { structureType: StructureExtension }
     })
@@ -74,7 +73,7 @@ export function SpawnInCreep(room: Room) {
 
         // spawning in the creep
         var newName = 'Harvester(T' + numberOfParts + ')' + Game.time
-        Game.spawns['Arnice123'].spawnCreep(body, newName, { memory: { role: 'harvester' } })
+        spawn.spawnCreep(body, newName, { memory: { role: 'harvester' } })
     }
 
     function SpawnInUpgrader(energy: number) {
@@ -130,7 +129,7 @@ export function SpawnInCreep(room: Room) {
 
         //spawing in Upgrader
         var newName = 'Upgrader(T' + numberOfParts + ')' + Game.time
-        Game.spawns['Arnice123'].spawnCreep(newBody, newName, { memory: { role: 'upgrader' } })
+        spawn.spawnCreep(newBody, newName, { memory: { role: 'upgrader' } })
         return
     }
 
@@ -175,7 +174,7 @@ export function SpawnInCreep(room: Room) {
 
         //spawing in a builder
         var newName = 'Builder(T' + numberOfParts + ')' + Game.time
-        Game.spawns['Arnice123'].spawnCreep(newBody, newName, { memory: { role: 'builder' } })
+        spawn.spawnCreep(newBody, newName, { memory: { role: 'builder' } })
         return
     }
 
@@ -195,7 +194,7 @@ export function SpawnInCreep(room: Room) {
         }
 
         var newName = 'Hauler(T' + numberOfParts + ')' + Game.time
-        Game.spawns['Arnice123'].spawnCreep(body, newName, { memory: { role: 'hauler' } })
+        spawn.spawnCreep(body, newName, { memory: { role: 'hauler' } })
     }
 
 }
