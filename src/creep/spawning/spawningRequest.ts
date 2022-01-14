@@ -8,8 +8,10 @@ export function SpawnInCreep(room: Room, spawn: StructureSpawn) {
 
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester')
     var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader')
+    var repairers = _.filter(Game.creeps, (creep) => creep.memory.role == 'repairer')
     var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder')
     var haulers = _.filter(Game.creeps, (creep) => creep.memory.role == 'hauler')
+
 
     // getting the energy structures
 
@@ -45,6 +47,10 @@ export function SpawnInCreep(room: Room, spawn: StructureSpawn) {
 
     if (haulers.length < 2) {
         SpawnInHauler(spawnEnergyAvailable)
+    }
+
+    if (repairers.length < 2) {
+        SpawnInRepairer(spawnEnergyAvailable)
     }
 
     // function to spawn in harvesters
@@ -195,6 +201,52 @@ export function SpawnInCreep(room: Room, spawn: StructureSpawn) {
 
         var newName = 'Hauler(T' + numberOfParts + ')' + Game.time
         spawn.spawnCreep(body, newName, { memory: { role: 'hauler' } })
+    }
+
+    function SpawnInRepairer(energy: number) {
+
+        if (energy < 300) {
+            return
+        }
+
+        let body: BodyOpts = {
+            defaultParts: [MOVE, CARRY, WORK],
+            extraParts: [],
+            maxParts: 30
+        }
+
+        // create a balanced body as big as possible with the given energy
+        var numberOfParts = Math.floor((energy - 300) / 50);
+
+        var numberOfCarryParts = Math.floor(numberOfParts * 0.35)
+        var numberOfMoveParts = Math.floor(numberOfParts * 0.22)
+        var numberOfWorkParts = Math.floor(numberOfParts * 0.43)
+
+
+        for (let i = 0; i < numberOfWorkParts; i++) {
+            body.extraParts.push(WORK)
+        }
+
+        for (let i = 0; i < numberOfMoveParts; i++) {
+            body.extraParts.push(MOVE)
+        }
+
+        for (let i = 0; i < numberOfCarryParts; i++) {
+            body.extraParts.push(CARRY)
+        }
+
+        //creating new bodt with defauly parts
+        var newBody: BodyPartConstant[] = [MOVE, CARRY, WORK]
+
+        //adding the extra parts
+        for (var i in body.extraParts) {
+            newBody.push(body.extraParts[i])
+        }
+
+        //spawing in a builder
+        var newName = 'Repairer(T' + numberOfParts + ')' + Game.time
+        spawn.spawnCreep(newBody, newName, { memory: { role: 'repairer' } })
+        return
     }
 
 }
