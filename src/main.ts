@@ -58,8 +58,12 @@ export const loop = function () {
         FindEmptySites(room, spawn)
     }
 
-    if (CheckIfContainerIsNeeded(room, controller, spawn)) {
-        PlaceContainersByController(controller, room, spawn)
+    const wt = 15
+
+    if (Game.time % wt == 0) {
+        if (CheckIfContainerIsNeeded(room, controller, spawn)) {
+            PlaceContainersByController(controller, room, spawn)
+        }
     }
 
     //how often it checks to spawn in another creep'

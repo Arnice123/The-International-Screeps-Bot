@@ -7,7 +7,7 @@ import { round } from "lodash";
 
 // creating a rectangle shape
 
-interface rectanngle {
+interface Rectanngle {
     x1: number
     y1: number
     x2: number
@@ -29,7 +29,7 @@ export function PlaceContainersByController(controller: StructureController, roo
 
     //creating the size of the rectangle
 
-    const rect: rectanngle = {
+    const rect: Rectanngle = {
         x1: controller.pos.x - 2,
         y1: controller.pos.y - 2,
         x2: controller.pos.x + 2,
@@ -77,12 +77,12 @@ export function PlaceContainersByController(controller: StructureController, roo
 
     // place the container
 
-    const placeContainerSiteResult = room.createConstructionSite(chosenPosition, STRUCTURE_ROAD)
+    const placeContainerSiteResult = room.createConstructionSite(chosenPosition, STRUCTURE_CONTAINER)
     console.log(placeContainerSiteResult)
 
     // this code will find all the possible positions to place a container
 
-    function findPositionsInsideRect(rect: rectanngle) {
+    function findPositionsInsideRect(rect: Rectanngle) {
 
         // the array that will contain all of the availible positions
 

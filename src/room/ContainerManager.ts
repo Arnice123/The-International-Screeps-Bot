@@ -5,7 +5,7 @@
 
     // creating a rectangle shape
 
-    interface rectanngle {
+    interface Rectanngle {
         x1: number
         y1: number
         x2: number
@@ -22,7 +22,7 @@
 
 export function CheckIfContainerIsNeeded(room:Room, controller: StructureController, spawn: StructureSpawn): boolean {
 
-    const rect: rectanngle = {
+    const rect: Rectanngle = {
         x1: controller.pos.x - 2,
         y1: controller.pos.y - 2,
         x2: controller.pos.x + 2,
@@ -88,7 +88,7 @@ export function CheckIfContainerIsNeeded(room:Room, controller: StructureControl
 
         return chosenPosition
 
-        function findPositionsInsideRect(rect: rectanngle) {
+        function findPositionsInsideRect(rect: Rectanngle) {
             // the array that will contain all of the availible positions
 
             var availiblePositions = []
