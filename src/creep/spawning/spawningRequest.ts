@@ -99,10 +99,10 @@ export function SpawnInCreep(room: Room) {
         var numberOfCarryParts = Math.floor(numberOfParts * 0.30)
 
         // move gets half of the work parts
-        var numberOfMoveParts = Math.floor(numberOfParts * 0.23)
+        var numberOfMoveParts = Math.floor(numberOfParts * 0.1)
 
         // work gets double the amount of move parts for max speed
-        var numberOfWorkParts = Math.floor(numberOfParts * 0.47)
+        var numberOfWorkParts = Math.floor(numberOfParts * 0.6)
 
 
         for (let i = 0; i < numberOfWorkParts; i++) {
