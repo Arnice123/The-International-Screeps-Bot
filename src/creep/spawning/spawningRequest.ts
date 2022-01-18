@@ -28,7 +28,7 @@ export function SpawnInCreep(room: Room, spawn: StructureSpawn) {
     interface BodyOpts {
         defaultParts: BodyPartConstant[]
         extraParts: BodyPartConstant[]
-        maxParts: number
+        tier: number
     }
 
     // if the amount of creeps for each role is less than 2 spawn in a new one
@@ -65,7 +65,7 @@ export function SpawnInCreep(room: Room, spawn: StructureSpawn) {
 
         // get the amount of parts that it can create
 
-        var numberOfParts = Math.floor((energy - 300) / 50)
+        var numberOfParts = Math.floor((energy - 300) / 100)
 
         // creating the body
 
@@ -93,34 +93,39 @@ export function SpawnInCreep(room: Room, spawn: StructureSpawn) {
         let body: BodyOpts = {
             defaultParts: [MOVE, CARRY, WORK],
             extraParts: [],
-            maxParts: 30
+            tier: 0
         }
 
-        var numberOfParts = Math.floor((energy - 300) / 50);
+        var energytogive = energy - 300
+
+        while (energytogive > 0) {
+            if (energytogive >= 100) {
+                body.extraParts.push(WORK)
+                body.tier += 1
+                energytogive = energytogive - 100
+            }
+
+            if (energytogive >= 50) {
+                body.extraParts.push(CARRY)
+                body.tier += 1
+                energytogive = energytogive - 50
+            }
+
+            if (energytogive >= 100) {
+                body.extraParts.push(WORK)
+                body.tier += 1
+                energytogive = energytogive - 100
+            }
+
+            if (energytogive >= 50) {
+                body.extraParts.push(MOVE)
+                body.tier += 1
+                energytogive = energytogive - 50
+            }
+
+        }
 
         // dividing the amount of parts amoung them
-
-        // carry gets a third
-        var numberOfCarryParts = Math.floor(numberOfParts * 0.20)
-
-        // move gets half of the work parts
-        var numberOfMoveParts = Math.floor(numberOfParts * 0.1)
-
-        // work gets double the amount of move parts for max speed
-        var numberOfWorkParts = Math.floor(numberOfParts * 0.7)
-
-
-        for (let i = 0; i < numberOfWorkParts; i++) {
-            body.extraParts.push(WORK)
-        }
-
-        for (let i = 0; i < numberOfMoveParts; i++) {
-            body.extraParts.push(MOVE)
-        }
-
-        for (let i = 0; i < numberOfCarryParts; i++) {
-            body.extraParts.push(CARRY)
-        }
 
         // creating a new body
         var newBody: BodyPartConstant[] = []
@@ -134,7 +139,7 @@ export function SpawnInCreep(room: Room, spawn: StructureSpawn) {
         }
 
         //spawing in Upgrader
-        var newName = 'Upgrader(T' + numberOfParts + ')' + Game.time
+        var newName = 'Upgrader(T' + body.tier + ')' + Game.time
         spawn.spawnCreep(newBody, newName, { memory: { role: 'upgrader' } })
         return
     }
@@ -147,39 +152,53 @@ export function SpawnInCreep(room: Room, spawn: StructureSpawn) {
         let body: BodyOpts = {
             defaultParts: [MOVE, CARRY, WORK],
             extraParts: [],
-            maxParts: 30
+            tier: 0
         }
 
-        // create a balanced body as big as possible with the given energy
-        var numberOfParts = Math.floor((energy - 300) / 50);
+        var energytogive = energy - 300
 
-        var numberOfCarryParts = Math.floor(numberOfParts * 0.35)
-        var numberOfMoveParts = Math.floor(numberOfParts * 0.22)
-        var numberOfWorkParts = Math.floor(numberOfParts * 0.43)
+        while (energytogive > 0) {
+            if (energytogive >= 100) {
+                body.extraParts.push(WORK)
+                body.tier += 1
+                energytogive = energytogive - 100
+            }
 
+            if (energytogive >= 50) {
+                body.extraParts.push(CARRY)
+                body.tier += 1
+                energytogive = energytogive - 50
+            }
 
-        for (let i = 0; i < numberOfWorkParts; i++) {
-            body.extraParts.push(WORK)
+            if (energytogive >= 150) {
+                body.extraParts.push(WORK)
+                body.tier += 1
+                energytogive = energytogive - 100
+            }
+
+            if (energytogive >= 50) {
+                body.extraParts.push(MOVE)
+                body.tier += 1
+                energytogive = energytogive - 50
+            }
+
         }
 
-        for (let i = 0; i < numberOfMoveParts; i++) {
-            body.extraParts.push(MOVE)
+        // dividing the amount of parts amoung them
+
+        // creating a new body
+        var newBody: BodyPartConstant[] = []
+
+        for (var i in body.defaultParts) {
+            newBody.push(body.defaultParts[i])
         }
 
-        for (let i = 0; i < numberOfCarryParts; i++) {
-            body.extraParts.push(CARRY)
-        }
-
-        //creating new bodt with defauly parts
-        var newBody: BodyPartConstant[] = [MOVE, CARRY, WORK]
-
-        //adding the extra parts
         for (var i in body.extraParts) {
             newBody.push(body.extraParts[i])
         }
 
-        //spawing in a builder
-        var newName = 'Builder(T' + numberOfParts + ')' + Game.time
+        //spawing in Upgrader
+        var newName = 'Builder(T' + body.tier + ')' + Game.time
         spawn.spawnCreep(newBody, newName, { memory: { role: 'builder' } })
         return
     }
@@ -199,7 +218,7 @@ export function SpawnInCreep(room: Room, spawn: StructureSpawn) {
             body.push(CARRY);
         }
 
-        var newName = 'Hauler(T' + numberOfParts + ')' + Game.time
+        var newName = 'Hauler(T' + (numberOfParts + 3) + ')' + Game.time
         spawn.spawnCreep(body, newName, { memory: { role: 'hauler' } })
     }
 
@@ -209,42 +228,57 @@ export function SpawnInCreep(room: Room, spawn: StructureSpawn) {
             return
         }
 
+
         let body: BodyOpts = {
             defaultParts: [MOVE, CARRY, WORK],
             extraParts: [],
-            maxParts: 30
+            tier: 0
         }
 
-        // create a balanced body as big as possible with the given energy
-        var numberOfParts = Math.floor((energy - 300) / 50);
+        var energytogive = energy - 300
 
-        var numberOfCarryParts = Math.floor(numberOfParts * 0.35)
-        var numberOfMoveParts = Math.floor(numberOfParts * 0.22)
-        var numberOfWorkParts = Math.floor(numberOfParts * 0.43)
+        while (energytogive > 0) {
+            if (energytogive >= 100) {
+                body.extraParts.push(WORK)
+                body.tier += 1
+                energytogive = energytogive - 100
+            }
 
+            if (energytogive >= 50) {
+                body.extraParts.push(CARRY)
+                body.tier += 1
+                energytogive = energytogive - 50
+            }
 
-        for (let i = 0; i < numberOfWorkParts; i++) {
-            body.extraParts.push(WORK)
+            if (energytogive >= 150) {
+                body.extraParts.push(WORK)
+                body.tier += 1
+                energytogive = energytogive - 100
+            }
+
+            if (energytogive >= 50) {
+                body.extraParts.push(MOVE)
+                body.tier += 1
+                energytogive = energytogive - 50
+            }
+
         }
 
-        for (let i = 0; i < numberOfMoveParts; i++) {
-            body.extraParts.push(MOVE)
+        // dividing the amount of parts amoung them
+
+        // creating a new body
+        var newBody: BodyPartConstant[] = []
+
+        for (var i in body.defaultParts) {
+            newBody.push(body.defaultParts[i])
         }
 
-        for (let i = 0; i < numberOfCarryParts; i++) {
-            body.extraParts.push(CARRY)
-        }
-
-        //creating new bodt with defauly parts
-        var newBody: BodyPartConstant[] = [MOVE, CARRY, WORK]
-
-        //adding the extra parts
         for (var i in body.extraParts) {
             newBody.push(body.extraParts[i])
         }
 
-        //spawing in a builder
-        var newName = 'Repairer(T' + numberOfParts + ')' + Game.time
+        //spawing in Upgrader
+        var newName = 'Repairer(T' + body.tier + ')' + Game.time
         spawn.spawnCreep(newBody, newName, { memory: { role: 'repairer' } })
         return
     }
