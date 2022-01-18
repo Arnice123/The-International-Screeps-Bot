@@ -1,9 +1,11 @@
 // These are global type declarations
 
 import { SpawnInCreep } from "creep/spawning/spawningRequest"
+import { filter } from "lodash"
 import { FindEmptySites } from "room/construction/RoadManager"
 import { PlaceContainersByController } from "room/construction/spawnContainerManager"
 import { CheckIfContainerIsNeeded } from "room/ContainerManager"
+import { TowerStuff } from "room/towerManager"
 
 declare global {
     /*
@@ -47,6 +49,19 @@ export const loop = function () {
 
     //getting the controller
     const controller = room.controller
+
+    //getting the tower
+    let towers:StructureTower[] = room.find(FIND_MY_STRUCTURES, {
+        filter: (structure) => {
+            return (structure.structureType == STRUCTURE_TOWER);
+        }
+    });
+
+    for (var tower in towers)
+    {
+        TowerStuff(room, towers[tower])
+    }
+
 
     //how often FindEmptySites runs
 
