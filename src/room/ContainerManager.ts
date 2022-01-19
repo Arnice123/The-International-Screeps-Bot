@@ -3,24 +3,24 @@
 */
 
 
-    // creating a rectangle shape
+// creating a rectangle shape
 
-    interface Rectanngle {
-        x1: number
-        y1: number
-        x2: number
-        y2: number
-    }
+interface Rectanngle {
+    x1: number
+    y1: number
+    x2: number
+    y2: number
+}
 
-    // creating a position type
+// creating a position type
 
-    interface Position {
-        x: number
-        y: number
-    }
+interface Position {
+    x: number
+    y: number
+}
 
 
-export function CheckIfContainerIsNeeded(room:Room, controller: StructureController, spawn: StructureSpawn): boolean {
+export function CheckIfContainerIsNeeded(room: Room, controller: StructureController, spawn: StructureSpawn): boolean {
 
     const rect: Rectanngle = {
         x1: controller.pos.x - 2,
@@ -34,11 +34,10 @@ export function CheckIfContainerIsNeeded(room:Room, controller: StructureControl
 
     const look = room.lookForAt(LOOK_STRUCTURES, containerPos.x, containerPos.y)
 
-    if (look[0].structureType != STRUCTURE_CONTAINER)
-    {
+    if (look[0].structureType != STRUCTURE_CONTAINER) {
         return true
     }
-    else{
+    else {
         return false
     }
 
@@ -132,4 +131,4 @@ export function CheckIfContainerIsNeeded(room:Room, controller: StructureControl
             return availiblePos
         }
     }
-  }
+}
