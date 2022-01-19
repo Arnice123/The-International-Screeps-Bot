@@ -48,6 +48,12 @@ var roleBuilder = {
                 if (creep.withdraw(closestContainer, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(closestContainer);
                 }
+
+                if (creep.withdraw(closestContainer, RESOURCE_ENERGY) == ERR_NOT_ENOUGH_RESOURCES) {
+                    if (creep.pickup(closestDroppedEnergy) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(closestDroppedEnergy.pos);
+                    }
+                }
             }
 
 
