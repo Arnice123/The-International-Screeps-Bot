@@ -1,5 +1,6 @@
 // These are global type declarations
 
+import { roleBuilder } from "creep/role.builder"
 import { SpawnInCreep } from "creep/spawning/spawningRequest"
 import { filter } from "lodash"
 import { FindEmptySites } from "room/construction/RoadManager"
@@ -17,7 +18,7 @@ declare global {
     */
     // Memory extension samples
     interface Memory {
-
+        builderHarvestSpot: RoomPosition
     }
 
     interface CreepMemory {
@@ -105,6 +106,7 @@ export const loop = function () {
             { align: 'left', opacity: 0.8 });
     }
 
+    roleBuilder
 
     // This is the main loop
 }
