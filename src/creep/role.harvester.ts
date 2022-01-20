@@ -13,7 +13,7 @@ var roleHarvester = {
 
         const closestSource = creep.pos.findClosestByRange(sources)
 
-        var containers = creep.room.find(FIND_MY_STRUCTURES, {
+        var containers = creep.room.find(FIND_STRUCTURES, {
             filter: { structureType: STRUCTURE_CONTAINER }
         })
 
@@ -33,3 +33,5 @@ var roleHarvester = {
 
     }
 };
+
+

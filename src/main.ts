@@ -22,7 +22,11 @@ declare global {
 
     interface CreepMemory {
         role: string;
-        building: boolean
+        building?: boolean
+        hauling?: boolean
+        repairing?: boolean
+        upgrading?: boolean
+        harvesting?: boolean
     }
 
     // Syntax for adding proprties to `global` (ex "global.log")
@@ -52,14 +56,13 @@ export const loop = function () {
     const controller = room.controller
 
     //getting the tower
-    let towers:StructureTower[] = room.find(FIND_MY_STRUCTURES, {
+    let towers: StructureTower[] = room.find(FIND_MY_STRUCTURES, {
         filter: (structure) => {
             return (structure.structureType == STRUCTURE_TOWER);
         }
     });
 
-    for (var tower in towers)
-    {
+    for (var tower in towers) {
         TowerStuff(room, towers[tower])
     }
 
