@@ -1,6 +1,6 @@
 // These are global type declarations
 
-import { roleBuilder } from "creep/role.builder"
+import { roleBuilder } from "creep/builder"
 import { SpawnInCreep } from "creep/spawning/spawningRequest"
 import { filter } from "lodash"
 import { FindEmptySites } from "room/construction/RoadManager"
@@ -19,6 +19,13 @@ declare global {
     // Memory extension samples
     interface Memory {
         builderHarvestSpot: RoomPosition
+        builderStructureType: string
+
+
+    }
+
+    interface RoomMemory {
+        chosenBuildID: Id<ConstructionSite>
     }
 
     interface CreepMemory {
