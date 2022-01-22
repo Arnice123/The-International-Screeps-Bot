@@ -1,6 +1,7 @@
 // These are global type declarations
 
 import { roleBuilder } from "creep/builder"
+import { ManageTheBuilder } from "creep/creepManagers/builderManager"
 import { SpawnInCreep } from "creep/spawning/spawningRequest"
 import { filter } from "lodash"
 import { FindEmptySites } from "room/construction/RoadManager"
@@ -20,9 +21,6 @@ declare global {
     interface Memory {
         chosenBuildEnergy: Id<Resource<ResourceConstant>>
         chosenBuildContainer:Id<StructureContainer>
-        /*builderHarvestSpot: RoomPosition
-        builderStructureType: string
-        builderEnergyType: Resource<ResourceConstant>*/
 
 
     }
@@ -32,7 +30,7 @@ declare global {
     }
 
     interface CreepMemory {
-        role: string;
+        role: string
         building?: boolean
         hauling?: boolean
         repairing?: boolean
@@ -116,7 +114,7 @@ export const loop = function () {
             { align: 'left', opacity: 0.8 });
     }
 
-    roleBuilder
+    
 
     // This is the main loop
 }

@@ -40,7 +40,7 @@ export var roleBuilder = {
                 const energyToHarvest = Game.getObjectById(Memory.chosenBuildContainer)
 
                 if (creep.withdraw(energyToHarvest, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(energyToHarvest);
+                    creep.moveTo(energyToHarvest)
                 }
             }
 

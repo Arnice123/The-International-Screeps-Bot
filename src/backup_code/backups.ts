@@ -119,3 +119,141 @@ module.exports = FindEmptySites()
         }
 
     }*/
+
+
+    /*
+        for (var sites in constructionSites) {
+            if (constructionSites[sites].structureType = structureTypesByBuildPriority[0])
+            {
+                creep.room.memory.chosenBuildID = constructionSites[sites].id
+                return
+            }
+        }
+
+        for (var sites in constructionSites) {
+            if (constructionSites[sites].structureType = structureTypesByBuildPriority[1])
+            {
+                creep.room.memory.chosenBuildID = constructionSites[sites].id
+                return
+            }
+        }
+
+        for (var sites in constructionSites) {
+            if (constructionSites[sites].structureType = structureTypesByBuildPriority[2])
+            {
+                creep.room.memory.chosenBuildID = constructionSites[sites].id
+                return
+            }
+        }
+
+        for (var sites in constructionSites) {
+            if (constructionSites[sites].structureType = structureTypesByBuildPriority[3])
+            {
+                creep.room.memory.chosenBuildID = constructionSites[sites].id
+                return
+            }
+        }
+
+        for (var sites in constructionSites) {
+            if (constructionSites[sites].structureType = structureTypesByBuildPriority[4])
+            {
+                creep.room.memory.chosenBuildID = constructionSites[sites].id
+                return
+            }
+        }
+
+        for (var sites in constructionSites) {
+            if (constructionSites[sites].structureType = structureTypesByBuildPriority[5])
+            {
+                creep.room.memory.chosenBuildID = constructionSites[sites].id
+                return
+            }
+        }
+
+        for (var sites in constructionSites) {
+            if (constructionSites[sites].structureType = structureTypesByBuildPriority[6])
+            {
+                creep.room.memory.chosenBuildID = constructionSites[sites].id
+                return
+            }
+        }
+
+        for (var sites in constructionSites) {
+            if (constructionSites[sites].structureType = structureTypesByBuildPriority[7])
+            {
+                creep.room.memory.chosenBuildID = constructionSites[sites].id
+                return
+            }
+        }
+
+        for (var sites in constructionSites) {
+            if (constructionSites[sites].structureType = structureTypesByBuildPriority[8])
+            {
+                creep.room.memory.chosenBuildID = constructionSites[sites].id
+                return
+            }
+        }
+
+        for (var sites in constructionSites) {
+            if (constructionSites[sites].structureType = structureTypesByBuildPriority[9])
+            {
+                creep.room.memory.chosenBuildID = constructionSites[sites].id
+                return
+            }
+        }
+
+        for (var sites in constructionSites) {
+            if (constructionSites[sites].structureType = structureTypesByBuildPriority[10])
+            {
+                creep.room.memory.chosenBuildID = constructionSites[sites].id
+                return
+            }
+        }
+
+        for (var sites in constructionSites) {
+            if (constructionSites[sites].structureType = structureTypesByBuildPriority[11])
+            {
+                creep.room.memory.chosenBuildID = constructionSites[sites].id
+                return
+            }
+        }
+
+        for (var sites in constructionSites) {
+            if (constructionSites[sites].structureType = structureTypesByBuildPriority[12])
+            {
+                creep.room.memory.chosenBuildID = constructionSites[sites].id
+                return
+            }
+        }
+
+        for (var sites in constructionSites) {
+            if (constructionSites[sites].structureType = structureTypesByBuildPriority[13])
+            {
+                creep.room.memory.chosenBuildID = constructionSites[sites].id
+                return
+            }
+        }
+
+        for (var sites in constructionSites) {
+            if (constructionSites[sites].structureType = structureTypesByBuildPriority[14])
+            {
+                creep.room.memory.chosenBuildID = constructionSites[sites].id
+                return
+            }
+        }
+
+        for (var sites in constructionSites) {
+            if (constructionSites[sites].structureType = structureTypesByBuildPriority[15])
+            {
+                creep.room.memory.chosenBuildID = constructionSites[sites].id
+                return
+            }
+        }
+
+        for (var sites in constructionSites) {
+            if (constructionSites[sites].structureType = structureTypesByBuildPriority[16])
+            {
+                creep.room.memory.chosenBuildID = constructionSites[sites].id
+                return
+            }
+        }*/

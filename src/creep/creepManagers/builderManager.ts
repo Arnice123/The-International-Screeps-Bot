@@ -1,12 +1,52 @@
 /* this code manages the builder */
 
 export function ManageTheBuilder(creep: Creep, room: Room) {
+
+    if (creep.room.memory.chosenBuildID == null)
+    {
+        choseBuildSite(creep)
+    }
+
+    if (Memory.chosenBuildEnergy && Memory.chosenBuildEnergy == null)
+    {
+        findEnergy()
+    }
+
     function choseBuildSite(creep:Creep) {
-        var chosenSite: ConstructionSite
+        var structureTypesByBuildPriority = [
+            STRUCTURE_SPAWN,
+            STRUCTURE_EXTENSION,
+            STRUCTURE_CONTAINER,
+            STRUCTURE_TOWER,
+            STRUCTURE_STORAGE,
+            STRUCTURE_ROAD,
+            STRUCTURE_WALL,
+            STRUCTURE_RAMPART,
+            STRUCTURE_TERMINAL,
+            STRUCTURE_EXTRACTOR,
+            STRUCTURE_LINK,
+            STRUCTURE_LAB,
+            STRUCTURE_FACTORY,
+            STRUCTURE_POWER_SPAWN,
+            STRUCTURE_NUKER,
+            STRUCTURE_OBSERVER,
+        ]
 
-        //add code
+        var constructionSites: ConstructionSite[] = creep.room.find(FIND_CONSTRUCTION_SITES)
 
-        creep.room.memory.chosenBuildID = chosenSite.id
+        for (var sites in constructionSites) {
+            for (var structures in structureTypesByBuildPriority)
+            {
+                if (constructionSites[sites].structureType = structureTypesByBuildPriority[structures])
+                {
+                    creep.room.memory.chosenBuildID = constructionSites[sites].id
+                    return
+                }
+            }
+        }
+
+
+
     }
 
     function findEnergy() {

@@ -33,7 +33,7 @@ export function SpawnInCreep(room: Room, spawn: StructureSpawn) {
 
     // if the amount of creeps for each role is less than 2 spawn in a new one
 
-    if (harvesters.length < 2) {
+    if (harvesters.length < 3) {
         SpawnInHarvester(spawnEnergyAvailable)
     }
 

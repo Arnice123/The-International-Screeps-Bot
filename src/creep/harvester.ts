@@ -5,7 +5,7 @@
 import { all, filter } from "lodash";
 
 
-var roleHarvester = {
+export var roleHarvester = {
 
     run: function (creep: Creep) {
 
