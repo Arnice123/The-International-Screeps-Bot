@@ -18,8 +18,11 @@ declare global {
     */
     // Memory extension samples
     interface Memory {
-        builderHarvestSpot: RoomPosition
+        chosenBuildEnergy: Id<Resource<ResourceConstant>>
+        chosenBuildContainer:Id<StructureContainer>
+        /*builderHarvestSpot: RoomPosition
         builderStructureType: string
+        builderEnergyType: Resource<ResourceConstant>*/
 
 
     }

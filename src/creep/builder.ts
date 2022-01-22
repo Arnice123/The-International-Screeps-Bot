@@ -16,7 +16,7 @@ export var roleBuilder = {
             creep.say('🚧 build')
         }
 
-        var chosenSiteID = creep.room.memory.chosenBuildID
+        const chosenSiteID = creep.room.memory.chosenBuildID
         const constructionSite = Game.getObjectById(creep.room.memory.chosenBuildID)
 
         if (creep.memory.building) {
@@ -28,56 +28,26 @@ export var roleBuilder = {
 
         }
         else {
-            if (Memory.builderStructureType = "dropped")
+            if (Memory.chosenBuildEnergy != null)
+            {
+                const energyToHarvest = Game.getObjectById(Memory.chosenBuildEnergy)
+
+                if (creep.pickup(energyToHarvest) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(energyToHarvest)
+                }
+            }
+            else{
+                const energyToHarvest = Game.getObjectById(Memory.chosenBuildContainer)
+
+                if (creep.withdraw(energyToHarvest, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(energyToHarvest);
+                }
+            }
 
         }
     }
 }
 
-function HarvestContainer(creep: Creep, closestContainer: StructureContainer, closestDroppedEnergy: Resource<ResourceConstant>) {
-    if (creep.withdraw(closestContainer, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-        creep.moveTo(closestContainer);
-    }
 
-    if (creep.withdraw(closestContainer, RESOURCE_ENERGY) == ERR_NOT_ENOUGH_RESOURCES) {
-        if (creep.pickup(closestDroppedEnergy) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(closestDroppedEnergy.pos);
-        }
-    }
-}
 
-function HarvestDropped(creep: Creep, energy: Resource<ResourceConstant>) {
-    if (creep.pickup(energy) == ERR_NOT_IN_RANGE) {
-        creep.moveTo(energy.pos);
-    }
-}
 
-function FindChosenSpot(goodDroppedEnergy: Resource<ResourceConstant>[], closestContainer: StructureContainer, creep: Creep) {
-    var BestDroppedEnergyValue: number = 0
-    let chosenDroppedEn: Resource<ResourceConstant>
-
-    const range = creep.pos.getRangeTo(closestContainer)
-    const containerVal = closestContainer.store.energy - range
-
-    for (var energ in goodDroppedEnergy) {
-        const range = creep.pos.getRangeTo(goodDroppedEnergy[energ])
-        const enAmount = goodDroppedEnergy[energ].amount
-        const amountDegeneratingAtick = enAmount / 1000
-        const valueOfThis = (enAmount - (range * amountDegeneratingAtick)) + 10
-
-        if (valueOfThis > BestDroppedEnergyValue) {
-            BestDroppedEnergyValue = valueOfThis
-            chosenDroppedEn = goodDroppedEnergy[energ]
-        }
-    }
-
-    if (BestDroppedEnergyValue > containerVal) {
-        Memory.builderHarvestSpot = chosenDroppedEn.pos
-        Memory.builderStructureType = "dropped"
-    }
-    else {
-        Memory.builderHarvestSpot = closestContainer.pos
-        Memory.builderStructureType = "container"
-    }
-
-}

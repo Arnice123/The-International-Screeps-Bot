@@ -1,7 +1,13 @@
 /* this code manages the builder */
 
 export function ManageTheBuilder(creep: Creep, room: Room) {
+    function choseBuildSite(creep:Creep) {
+        var chosenSite: ConstructionSite
 
+        //add code
+
+        creep.room.memory.chosenBuildID = chosenSite.id
+    }
 
     function findEnergy() {
         var droppedEnergy = creep.room.find(FIND_DROPPED_RESOURCES, {
@@ -46,12 +52,10 @@ export function ManageTheBuilder(creep: Creep, room: Room) {
             }
 
             if (BestDroppedEnergyValue > containerVal) {
-                Memory.builderHarvestSpot = chosenDroppedEn.pos
-                Memory.builderStructureType = "dropped"
+                Memory.chosenBuildEnergy = chosenDroppedEn.id
             }
             else {
-                Memory.builderHarvestSpot = closestContainer.pos
-                Memory.builderStructureType = "container"
+                Memory.chosenBuildContainer = closestContainer.id
             }
 
     }
