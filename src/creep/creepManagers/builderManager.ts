@@ -1,8 +1,9 @@
 /* this code manages the builder */
 
-export function ManageTheBuilder(creep: Creep, room: Room) {
+export function ManageTheBuilder(creep: Creep) {
+    var constructionSites: ConstructionSite[] = creep.room.find(FIND_CONSTRUCTION_SITES)
 
-    if (creep.room.memory.chosenBuildID == null)
+    if (creep.room.memory.chosenBuildID == null && constructionSites.length != 0)
     {
         choseBuildSite(creep)
     }
@@ -31,8 +32,6 @@ export function ManageTheBuilder(creep: Creep, room: Room) {
             STRUCTURE_NUKER,
             STRUCTURE_OBSERVER,
         ]
-
-        var constructionSites: ConstructionSite[] = creep.room.find(FIND_CONSTRUCTION_SITES)
 
         for (var sites in constructionSites) {
             for (var structures in structureTypesByBuildPriority)
