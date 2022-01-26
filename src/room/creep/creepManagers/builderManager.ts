@@ -8,7 +8,7 @@ export function ManageTheBuilder(creep: Creep) {
         choseBuildSite(creep)
     }
 
-    if (Memory.chosenBuildEnergy && Memory.chosenBuildEnergy == null)
+    if (Memory.chosenBuildEnergy == null && Memory.chosenBuildContainer == null)
     {
         findEnergy()
     }

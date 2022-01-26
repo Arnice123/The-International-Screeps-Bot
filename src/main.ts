@@ -1,13 +1,17 @@
 // These are global type declarations
 
-import { roleBuilder } from "creep/builder"
-import { ManageTheBuilder } from "creep/creepManagers/builderManager"
-import { SpawnInCreep } from "creep/spawning/spawningRequest"
+import { roleBuilder } from "room/creep/builder"
+import { ManageTheBuilder } from "room/creep/creepManagers/builderManager"
+import { roleHarvester } from "room/creep/harvester"
+import { roleHauler } from "room/creep/hauler"
+import { roleRepairer } from "room/creep/repairer"
+import { SpawnInCreep } from "room/creep/spawning/spawningRequest"
+import { roleUpgrader } from "room/creep/upgrader"
 import { filter } from "lodash"
-import { FindEmptySites } from "room/construction/RoadManager"
-import { PlaceContainersByController } from "room/construction/spawnContainerManager"
-import { CheckIfContainerIsNeeded } from "room/ContainerManager"
-import { TowerStuff } from "room/towerManager"
+import { FindEmptySites } from "room/buildings/construction/RoadManager"
+import { PlaceContainersByController } from "room/buildings/construction/spawnContainerManager"
+import { CheckIfContainerIsNeeded } from "room/buildings/ContainerManager"
+import { TowerStuff } from "room/buildings/towerManager"
 
 declare global {
     /*
@@ -20,13 +24,14 @@ declare global {
     // Memory extension samples
     interface Memory {
         chosenBuildEnergy: Id<Resource<ResourceConstant>>
-        chosenBuildContainer:Id<StructureContainer>
+        chosenBuildContainer: Id<StructureContainer>
 
 
     }
 
     interface RoomMemory {
         chosenBuildID: Id<ConstructionSite>
+        spawnContainerID: Id<StructureContainer>
     }
 
     interface CreepMemory {
@@ -55,7 +60,7 @@ export const loop = function () {
     }
 
     //getting the room
-    const myHardcodedRoomName = "E32N8";
+    const myHardcodedRoomName = "E29N11";
     const room = Game.rooms[myHardcodedRoomName]
 
     //getting the spawn
@@ -114,7 +119,24 @@ export const loop = function () {
             { align: 'left', opacity: 0.8 });
     }
 
-    
+    for (var name in Game.creeps) {
+        var creep = Game.creeps[name];
+        if (creep.memory.role == 'harvester') {
+            roleHarvester.run(creep);
+        }
+        if (creep.memory.role == 'upgrader') {
+            roleUpgrader.run(creep);
+        }
+        if (creep.memory.role == 'builder') {
+            roleBuilder.run(creep);
+        }
+        if (creep.memory.role == 'hauler') {
+            roleHauler.run(creep);
+        }
+        if (creep.memory.role == 'repairer') {
+            roleRepairer.run(creep);
+        }
+    }
 
     // This is the main loop
 }

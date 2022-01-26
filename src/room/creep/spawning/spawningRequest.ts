@@ -41,12 +41,12 @@ export function SpawnInCreep(room: Room, spawn: StructureSpawn) {
         SpawnInUpgrader(spawnEnergyAvailable)
     }
 
-    if (builders.length < 2) {
-        SpawnInBuilder(spawnEnergyAvailable)
-    }
-
     if (haulers.length < 2) {
         SpawnInHauler(spawnEnergyAvailable)
+    }
+
+    if (builders.length < 2) {
+        SpawnInBuilder(spawnEnergyAvailable)
     }
 
     if (repairers.length < 2) {

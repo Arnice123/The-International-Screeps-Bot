@@ -13,15 +13,16 @@ export var roleHarvester = {
 
         const closestSource = creep.pos.findClosestByRange(sources)
 
-        var containers = creep.room.find(FIND_STRUCTURES, {
+        var containers : StructureContainer[] = creep.room.find(FIND_STRUCTURES, {
             filter: { structureType: STRUCTURE_CONTAINER }
         })
 
-        const closestContainer = creep.pos.findClosestByPath(containers)
+        const closestContainer: StructureContainer = creep.pos.findClosestByPath(containers)
 
         if (!closestContainer) {
             if (creep.harvest(closestSource) == ERR_NOT_IN_RANGE)
                 creep.moveTo(closestSource, { visualizePathStyle: { stroke: '#ffaa00' } })
+            return
         }
 
         if (creep.pos.getRangeTo(closestContainer.pos) == 0) {

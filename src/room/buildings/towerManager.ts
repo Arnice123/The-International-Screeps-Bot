@@ -12,7 +12,7 @@ export function TowerStuff(room: Room, tower: StructureTower) {
     }
 
     const damagedStructures = room.find(FIND_STRUCTURES, {
-        filter: (structure) => structure.hits < structure.hitsMax * 0.2 && structure.structureType != STRUCTURE_RAMPART && structure.structureType != STRUCTURE_WALL
+        filter: (structure) => structure.hits < structure.hitsMax * 0.8 && structure.structureType != STRUCTURE_RAMPART && structure.structureType != STRUCTURE_WALL
     })
 
     if (damagedStructures.length > 0) {

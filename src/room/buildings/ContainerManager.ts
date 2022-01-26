@@ -2,6 +2,8 @@
     this coded will check to see if you need to place a container
 */
 
+import { contains, filter } from "lodash"
+
 
 // creating a rectangle shape
 
@@ -32,14 +34,22 @@ export function CheckIfContainerIsNeeded(room: Room, controller: StructureContro
 
     const containerPos = findBestSpot()
 
-    const look = room.lookForAt(LOOK_STRUCTURES, containerPos.x, containerPos.y)
 
-    if (look[0].structureType != STRUCTURE_CONTAINER) {
-        return true
+
+    const look = room.lookForAt(LOOK_STRUCTURES, containerPos)
+
+    const contain: StructureContainer[] = room.find(FIND_STRUCTURES, {
+        filter: { structureType: STRUCTURE_CONTAINER }
+    })
+
+    for (var container in contain) {
+        if (contain[container].pos == containerPos) {
+            room.memory.spawnContainerID = contain[container].id
+            return false
+        }
     }
-    else {
-        return false
-    }
+
+    return true
 
 
     function findBestSpot() {
