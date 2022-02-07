@@ -23,6 +23,13 @@ interface Position {
 
 export function PlaceContainersByController(controller: StructureController, room: Room, spawn: StructureSpawn) {
 
+    if (room.memory.spawnContainerPosition != null) {
+        const placeContainerSiteResult = room.createConstructionSite(room.memory.spawnContainerPosition, STRUCTURE_CONTAINER)
+        console.log(placeContainerSiteResult)
+        return
+    }
+
+
     //getting the terrain
 
     let terrain = room.getTerrain()
@@ -79,6 +86,9 @@ export function PlaceContainersByController(controller: StructureController, roo
 
     const placeContainerSiteResult = room.createConstructionSite(chosenPosition, STRUCTURE_CONTAINER)
     console.log(placeContainerSiteResult)
+    
+
+    room.memory.spawnContainerPosition = chosenPosition
 
     // this code will find all the possible positions to place a container
 

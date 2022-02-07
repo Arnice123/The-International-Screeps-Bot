@@ -7,14 +7,20 @@ import { Position } from "source-map";
 
 // function that will be called every 10 tics in order to find missing paths
 
-export function FindEmptySites(room:Room, spawn:StructureSpawn) {
+export function FindEmptySites(room: Room, spawn: StructureSpawn) {
 
     //creating an instance of the room
 
-    // create a path from the spawn to the energy sources
-
-    const path1 = spawn.pos.findPathTo(Game.flags.SOURCE1.pos)
-    const path2 = spawn.pos.findPathTo(Game.flags.SOURCE2.pos)
+    if (room.memory.path1 == null && room.memory.path2 == null) {
+        var path1 = spawn.pos.findPathTo(Game.flags.SOURCE1.pos)
+        var path2 = spawn.pos.findPathTo(Game.flags.SOURCE2.pos)
+        room.memory.path1 = path1
+        room.memory.path1 = path2
+    }
+    else {
+        var path1 = room.memory.path1
+        var path2 = room.memory.path2
+    }
 
     const constructSitesLength = spawn.room.find(FIND_MY_STRUCTURES, {
         filter: { structureType: FIND_MY_CONSTRUCTION_SITES }

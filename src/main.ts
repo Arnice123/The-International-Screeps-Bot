@@ -32,6 +32,11 @@ declare global {
     interface RoomMemory {
         chosenBuildID: Id<ConstructionSite>
         spawnContainerID: Id<StructureContainer>
+
+        path1: PathStep[]
+        path2: PathStep[]
+
+        spawnContainerPosition: RoomPosition
     }
 
     interface CreepMemory {
@@ -94,7 +99,7 @@ export const loop = function () {
     const wt = 15
 
     if (Game.time % wt == 0) {
-        if (CheckIfContainerIsNeeded(room, controller, spawn)) {
+        if (CheckIfContainerIsNeeded(room)) {
             PlaceContainersByController(controller, room, spawn)
         }
     }
